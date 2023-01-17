@@ -448,7 +448,7 @@ class SnowflakeConnectionManager(SQLConnectionManager):
             ).strip()
 
             if without_comments != "":
-                stripped_queries.append(without_comments)
+                stripped_queries.append(query)
 
         for individual_query in stripped_queries:
             # Even though we turn off transactions by default for Snowflake,
