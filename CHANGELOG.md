@@ -14,6 +14,9 @@
 ### Contributors
 - [@dataders](https://github.com/dataders) ([#374](https://github.com/dbt-labs/dbt-spark/issues/374))
 
+## dbt-snowflake 1.4.1-a99 - February 15, 2023
+
+
 
 ## dbt-snowflake 1.4.0 - January 25, 2023
 ### Features
