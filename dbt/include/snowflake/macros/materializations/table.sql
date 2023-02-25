@@ -1,5 +1,5 @@
 {% materialization table, adapter='snowflake', supported_languages=['sql', 'python']%}
-
+  {% if should_run_model('table') %}
   {% set original_query_tag = set_query_tag() %}
 
   {%- set identifier = model['alias'] -%}
@@ -35,7 +35,11 @@
   {% do unset_query_tag(original_query_tag) %}
 
   {{ return({'relations': [target_relation]}) }}
-
+  {% else %}
+  {%- set identifier = model['alias'] -%}
+  {%- set relation = adapter.get_relation(database=database, schema=schema, identifier=identifier) -%}
+  {{ return({'relations': [relation]}) }}
+  {% endif %}
 {% endmaterialization %}
 
 {% macro py_write_table(compiled_code, target_relation, temporary=False) %}

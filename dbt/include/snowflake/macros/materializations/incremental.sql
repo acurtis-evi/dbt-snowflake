@@ -19,12 +19,13 @@
 
 {% materialization incremental, adapter='snowflake', supported_languages=['sql', 'python'] -%}
 
+  {% set target_relation = this %}
+  {% if should_run_model('incremental') %}
   {% set original_query_tag = set_query_tag() %}
 
   {#-- Set vars --#}
   {%- set full_refresh_mode = (should_full_refresh()) -%}
   {%- set language = model['language'] -%}
-  {% set target_relation = this %}
   {% set existing_relation = load_relation(this) %}
 
   {#-- The temp relation will be a view (faster) or temp table, depending on upsert/merge strategy --#}
@@ -100,7 +101,7 @@
   {% do persist_docs(target_relation, model) %}
 
   {% do unset_query_tag(original_query_tag) %}
-
+  {% endif %}
   {{ return({'relations': [target_relation]}) }}
 
 {%- endmaterialization %}
